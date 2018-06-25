@@ -1,0 +1,29 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+th{
+    background-color: gray;
+}
+
+.posted_messages{
+    border: solid 1px black;
+    width: 50%;
+    height: 50px;
+}
+.posted_comments{
+    border: solid 1px black;
+    width: 30%;
+    height: 40px;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        {% load static %}
+        {% load humanize %}
+        <!-- The line above tells Django to be ready to listen for static files -->
+        <link rel="stylesheet" href="{% static 'user_dashboard/css/style.css' %}" media="screen" title="no title" charset="utf-8">
+        <!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+    </head>
+    <body>
+        <h1>Wall</h1>
+        <h3>{{individual.firstname}} {{individual.lastname}}</h3>
+        <p>Registered at: {{individual.created_at}}</p>
+        <p>User ID: {{individual.id}}</p>
+        <p>Email address: {{individual.email}}</p>
+        <p>Description: {{individual.desc}}</p>
+        <form action="{% url 'dd:post_message' individual.id %}" method="post">
+            {% csrf_token %}
+            Leave a message for {{individual.firstname}}:<br>
+            <textarea name="message_desc" value="" cols="60" rows="5"></textarea>
+            <br><input type="submit" value="Post">
+        </form><br>
+        {% for message_model in message_models %}
+            {{message_model.message.author.firstname}} {{message_model.message.author.lastname}} wrote:                    
+            {{message_model.message.created_at|naturaltime}}<br>
+            <div class="posted_messages">{{message_model.message.desc}}<br></div><br>
+            {% for comment in message_model.comments %}
+                {{comment.author.firstname}} wrote:   {{comment.created_at|naturaltime}}<br>
+                <div class="posted_comments">
+                    {{comment.desc}}<br>
+                </div><br>
+            {% endfor %}
+            <form action="{% url 'dd:post_comment' individual.id message_model.message.id %}" method="post">
+                {% csrf_token %}
+                <input class="posted_comments" type="text" name="comment_desc" value="write a message">
+                <br><br><input type="submit" value="Post">
+            </form><br>
+        {% endfor %}
+    </body>
+</html>

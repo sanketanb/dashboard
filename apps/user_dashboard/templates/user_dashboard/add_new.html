@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        {% load static %}
+        <!-- The line above tells Django to be ready to listen for static files -->
+        <link rel="stylesheet" href="{% static 'user_dashboard/css/style.css' %}" media="screen" title="no title" charset="utf-8">
+        <!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+    </head>
+    <body>
+        <h1>Add a new user</h1>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="red">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        <form action="{% url 'dd:register' %}" method="post">
+            {% csrf_token %} 
+            First Name:
+            <br>
+            <input type="text" name="first_name" value="">
+            <br> Last Name:
+            <br>
+            <input type="text" name="last_name" value="">
+            <br> Email:
+            <br>
+            <input type="text" name="email" value="">
+            <br> Password:
+            <br>
+            <input type="password" name="password" value="">
+            <br> Confirm Password:
+            <br>
+            <input type="password" name="cpassword" value="">
+            <br>
+            <br>
+            <input type="submit" value="Create">
+        </form>
+    </body>
+</html>

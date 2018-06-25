@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        {% load static %}
+        <!-- The line above tells Django to be ready to listen for static files -->
+        <link rel="stylesheet" href="{% static 'user_dashboard/css/style.css' %}" media="screen" title="no title" charset="utf-8">
+        <!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+    </head>
+    <body>
+        <h1>Dashboard-user</h1>
+        <h2>App</h2>
+        <a href="{% url 'dd:edit_user_page' %}"><h2>Profile</h2></a>
+        <a href="{% url 'dd:logout' %}"><h2>Logoff</h2></a>
+        <h2>All Users</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>email</th>
+                    <th>created_at</th>
+                    <th>user_level</th>
+                </tr>
+            </thead>
+            {% for user in users %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td><a href="{% url 'dd:show' user.id %}">{{user.firstname}} {{user.lastname}}</a></td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.created_at}}</td>
+                    <!-- <td>{{user.user_level}}</td> -->
+                    <td>
+                        {% if user.user_level == 1 %}
+                            normal
+                        {% elif user.user_level == 9 %}
+                            admin
+                        {% else %}
+                            No level
+                        {% endif %}
+
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        {% load static %}
+        <!-- The line above tells Django to be ready to listen for static files -->
+        <link rel="stylesheet" href="{% static 'user_dashboard/css/style.css' %}" media="screen" title="no title" charset="utf-8">
+        <!-- Put the static files in the static folder inside your app.  Django collects files within all static folders and puts them within a single folder -->
+    </head>
+    <body>
+        <h1>Edit Profile</h1>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class="red">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <h3>Edit Information</h3>
+        <form action="{% url 'dd:edit_user_info' id=individual.id %}" method="post">
+            {% csrf_token %}
+            Email address:
+            <input type="text" name="email" value={{individual.email}}><br>
+            First name:
+            <input type="text" name="first_name" value={{individual.firstname}}><br>
+            Last name:
+            <input type="text" name="last_name" value={{individual.lastname}}><br>
+            <input type="submit" value="Save">
+
+        </form>
+        <h3>Edit password</h3>
+        <form action="{% url 'dd:edit_user_pwd' id=individual.id %}" method="post">
+            {% csrf_token %}
+            Password:
+            <input type="password" name="password" value=""><br>
+            Confirm Password:
+            <input type="password" name="cpassword" value=""><br>
+            <input type="submit" value="Update password">
+        </form>
+
+        <h3>Edit Description</h3>
+        <form action="{% url 'dd:edit_user_desc' individual.id %}" method="post">
+            {% csrf_token %}
+            <textarea type="text" name="desc" rows="5" cols="20"></textarea><br>
+            <input type="submit" value="Save">
+        </form>
+
+    </body>
+</html>
